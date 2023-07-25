@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues values = new ContentValues();
                 values.put("signature", byteArray);
                 values.put("nombre", editTextFileName.getText().toString());
-                long result = db.insert("mi_basededatos", null, values);
+                long result = db.insert(MyDatabaseHelper.tableName, null, values);
 
                 if (result != -1) {
                     Toast.makeText(MainActivity.this, "Firma guardada correctamente", Toast.LENGTH_SHORT).show();
@@ -83,25 +83,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    private void guardarFirma(byte[] firma) {
-        try {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("signature", firma);
-            long result = db.insert("mi_basededatos", null, values);
-            if (result != -1) {
-                Toast.makeText(MainActivity.this, "Firma guardada correctamente", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Error al guardar la firma", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(MainActivity.this, "Error al guardar la firma", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // Otros métodos para interactuar con la base de datos...
 
     @Override
     protected void onDestroy() {

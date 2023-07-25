@@ -4,18 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
+import com.example.exercise_24.config.ListAdapter;
+import com.example.exercise_24.config.objetFirmas;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class registrosActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private signaturess firmaAdapter;
-    private List<byte[]> firmasList;
-    private MyDatabaseHelper dbHelper;
+    ListView listView;
+    List<objetFirmas> mData = new ArrayList<>();
+    ListAdapter mAdapter;
+    MyDatabaseHelper conexion;
     private Button backButton;
 
     @Override
@@ -23,12 +30,7 @@ public class registrosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registros);
 
-        firmasList = obtenerFirmasDesdeBaseDeDatos();
-
-        recyclerView = findViewById(R.id.recyclerViewRegistros);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        firmaAdapter = new signaturess(firmasList);
-        recyclerView.setAdapter(firmaAdapter);
+        conexion = new MyDatabaseHelper(this);
 
         backButton = findViewById(R.id.btn_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -38,10 +40,29 @@ public class registrosActivity extends AppCompatActivity {
             }
         });
 
+
+        listView = (ListView) findViewById(R.id.listView);
+        obtenerTabla();
+        mAdapter = new ListAdapter(this,mData);
+        listView.setAdapter(mAdapter);
+
     }
-    private List<byte[]> obtenerFirmasDesdeBaseDeDatos() {
-        dbHelper = new MyDatabaseHelper(this);
-        return dbHelper.obtenerFirmasDesdeBaseDeDatos();
+
+    private void obtenerTabla() {
+
+        SQLiteDatabase db = conexion.getReadableDatabase();
+        objetFirmas firmas = null;
+        //Cursor de base de datos
+        Cursor cursor = db.rawQuery(MyDatabaseHelper.SelectTable,null);
+
+        //Recorremos el cursor
+        while (cursor.moveToNext()){
+            firmas = new objetFirmas();
+            firmas.setId(cursor.getString(0));
+            firmas.setNombre(cursor.getString(2));
+            mData.add(firmas);
+        }
+        cursor.close();
     }
 
 
