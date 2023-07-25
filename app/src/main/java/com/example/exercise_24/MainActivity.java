@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private MyDatabaseHelper dbHelper;
+    EditText editTextFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
-
+        editTextFileName=findViewById(R.id.editTextFileName);
 
         mainBinding.btnClearSign.setOnClickListener(view ->{
             mainBinding.signatureView.clearCanvas();
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
                 values.put("signature", byteArray);
+                values.put("nombre", editTextFileName.getText().toString());
                 long result = db.insert("mi_basededatos", null, values);
 
                 if (result != -1) {

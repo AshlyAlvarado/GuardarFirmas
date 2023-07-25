@@ -39,7 +39,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         // Define las columnas que deseas seleccionar
-        String[] columnas = {"signature"};
+        String[] columnas = {"signature, nombre"};
 
         // Realiza la consulta SELECT
         Cursor cursor = db.query("mi_basededatos", columnas, null, null, null, null, null);

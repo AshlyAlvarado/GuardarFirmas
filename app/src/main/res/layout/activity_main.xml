@@ -12,13 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:layout_marginTop="52dp"
-        app:backgroundColor="#fff"
+        app:backgroundColor="@color/black"
         app:enableSignature="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:penColor="#000000"
+        app:penColor="@color/white"
         app:penSize="5dp" />
 
     <Button
@@ -69,7 +69,8 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Ingrese Nombre"
+        android:maxLength="100"
+        android:hint="Ingrese Nombre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signature_view" />
 
